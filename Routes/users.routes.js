@@ -49,16 +49,15 @@ userRouter.patch('/update/:id',async(req,res)=>{
     res.status(200).send({"msg":`The user with ID: ${userid} has been updated`})
    }
    else{
-    res.status(200).send({"msg":"You are not authorized"})
+    res.status(200).send({"msg":"User not found"})
    }
   }
   catch{
     res.status(400).send({"error":err})
   }
 })
-userRouter.get('/:id',async(req,res)=>{
-    const userid=req.params
-    console.log(userid)
+userRouter.get('/singleuser/:id',async(req,res)=>{
+    const userid=req.params.id
     try{
         const user=await UserModel.findOne({_id:userid})
        if(user!=undefined){
