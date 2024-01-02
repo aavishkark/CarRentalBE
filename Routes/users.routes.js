@@ -58,6 +58,7 @@ userRouter.patch('/update/:id',async(req,res)=>{
 })
 userRouter.get('/:id',async(req,res)=>{
     const userid=req.params
+    console.log(userid)
     try{
         const user=await UserModel.findOne({_id:userid})
        if(user!=undefined){
@@ -67,7 +68,7 @@ userRouter.get('/:id',async(req,res)=>{
         res.status(200).send({"msg":"You are not authorized"})
        }
       }
-      catch{
+      catch(err){
         res.status(400).send({"error":err})
       }
 })
