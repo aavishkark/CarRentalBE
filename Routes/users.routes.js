@@ -4,15 +4,14 @@ const userRouter=express.Router()
 const jwt=require("jsonwebtoken")
 const bcrypt=require('bcrypt')
 userRouter.post('/register',(req,res)=>{
-    const {username,email,pass}=req.body
-    
+    const {username,email,pass,pastRides,city,activeRides,favourite}=req.body
     try{
         bcrypt.hash(pass,5,async(err,hash)=>{
             if(err){
                 res.status(200).send({"err":err})
             }
             else{
-                const user=new UserModel({username:username,email:email,pass:hash})
+                const user=new UserModel({username:username,email:email,password:hash,pastRides:pastRides,city:city,activeRides:activeRides,favourite:favourite})
                 await user.save()
                 res.status(200).send({"msg":"A user has been registered"})
             }
@@ -27,7 +26,7 @@ userRouter.post("/login",async(req,res)=>{
     const {email,pass}=req.body
     try{
         const user=await UserModel.findOne({email})
-        bcrypt.compare(pass,user.pass,(err,result)=>{
+        bcrypt.compare(pass,user.password,(err,result)=>{
             if(result){
                 const token=jwt.sign({username:user.username,userid:user.id},"masai")
                 res.status(200).send({"msg":"Login Successfull","token":token})

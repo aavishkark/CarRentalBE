@@ -7,7 +7,7 @@ const userSchema=mongoose.Schema({
     pastRides: Array,
     city: String,
     activeRides: Array,
-    cart: Array
+    favourite: Array
 },{
     versionKey:null
 })
