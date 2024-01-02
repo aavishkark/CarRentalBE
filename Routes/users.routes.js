@@ -29,7 +29,7 @@ userRouter.post("/login",async(req,res)=>{
         bcrypt.compare(password,user.password,(err,result)=>{
             if(result){
                 const token=jwt.sign({username:user.username,userid:user.id},"masai")
-                res.status(200).send({"msg":"Login Successfull","token":token})
+                res.status(200).send({"msg":"Login Successfull","token":token,"user":user})
             }
             else{
                 res.status(200).send({"msg":"wrong Credentials"})
@@ -39,5 +39,21 @@ userRouter.post("/login",async(req,res)=>{
     catch(err){
         res.status(400).send({"err":err})
     }
+})
+userRouter.patch('/update/:id',async(req,res)=>{
+  const userid=req.params
+  const user=await UserModel.findOne({_id:userid})
+  try{
+   if(user!=undefined){
+    await NoteModel.findByIdAndUpdate(userid,req.body)
+    res.status(200).send({"msg":`The user with ID: ${userid} has been updated`})
+   }
+   else{
+    res.status(200).send({"msg":"You are not authorized"})
+   }
+  }
+  catch{
+    res.status(400).send({"error":err})
+  }
 })
 module.exports={userRouter}
