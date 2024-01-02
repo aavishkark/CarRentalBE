@@ -41,7 +41,7 @@ userRouter.post("/login",async(req,res)=>{
     }
 })
 userRouter.patch('/update/:id',async(req,res)=>{
-  const userid=req.params
+  const userid=req.params.id
   try{
     const user=await UserModel.findOne({_id:userid})
    if(user!=undefined){
