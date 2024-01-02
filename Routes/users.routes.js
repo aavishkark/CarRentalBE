@@ -19,7 +19,7 @@ userRouter.post('/register',(req,res)=>{
     }
     catch(err){
         console.log(err)
-      res.status(400).send({"err":err})
+       res.status(400).send({"err":err})
     }
 })
 userRouter.post("/login",async(req,res)=>{
