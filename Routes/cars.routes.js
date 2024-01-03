@@ -14,9 +14,10 @@ carRouter.post('/addcar',async(req,res)=>{
     }
 })
 carRouter.get('/',async(req,res)=>{
+    console.log(req.params)
     try{
         const cars=await carModel.find({})
-        res.status(200).send({"Cars":cars})
+        res.status(200).send({"Cars":cars,"params":req.params})
       }
       catch(err){
           res.status(400).send({"Error":err})
