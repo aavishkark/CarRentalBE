@@ -14,10 +14,23 @@ carRouter.post('/addcar',async(req,res)=>{
     }
 })
 carRouter.get('/',async(req,res)=>{
-    console.log(req.headers)
+    const query={}
+    const sort={}
+    query.city=req.headers.city
     try{
-        const cars=await carModel.find({})
-        res.status(200).send({"Cars":cars,"params":req.params})
+        if(req.headers.order && req.headers.order=="asc"){
+            sort.pricePerDay='asc';
+        }
+        else if(req.headers.order && req.headers.order=="desc"){
+            sort.pricePerDay='desc'
+        }
+        if(req.headers.type2){
+            if(req.headers.type2!="ALL"){
+                query.type2=req.headers.type2
+            }
+        }
+        const cars=await carModel.find(query).sort(sort)
+        res.status(200).send({"Cars":cars})
       }
       catch(err){
           res.status(400).send({"Error":err})
