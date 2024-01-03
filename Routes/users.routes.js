@@ -56,7 +56,7 @@ userRouter.patch('/update/:id',async(req,res)=>{
     res.status(400).send({"error":err})
   }
 })
-userRouter.get('/singleuser/:id',async(req,res)=>{
+userRouter.get('/singleuser/:id',async(req,res)=>{ 
     const userid=req.params.id
     try{
         const user=await UserModel.findOne({_id:userid})

@@ -13,7 +13,7 @@ carRouter.post('/addcar',async(req,res)=>{
         res.status(400).send({"err":err})
     }
 })
-carRouter.get('/',async(req,res)=>{
+carRouter.get('/filtercars',async(req,res)=>{
     const query={}
     const sort={}
     query.city=req.headers.city
@@ -36,12 +36,19 @@ carRouter.get('/',async(req,res)=>{
           res.status(400).send({"Error":err})
       }
 })
-
+carRouter.get('/allcars',async(req,res)=>{
+    try{
+        const cars=await carModel.find({})
+        res.status(200).send({"Cars":cars})
+    }
+    catch(err){
+        res.status(400).send({"Error":err})
+    }
+})
 carRouter.patch('/updatecar/:id',async(req,res)=>{
     const carid=req.params.id;
-    const car=await carModel.findOne({_id:carid})
-    console.log(car)
     try{
+        const car=await carModel.findOne({_id:carid})
         if(car!=undefined){
             await carModel.findByIdAndUpdate(carid,req.body)
             res.status(200).send({"msg":`The car with ID: ${carid} has been updated`})
@@ -52,6 +59,23 @@ carRouter.patch('/updatecar/:id',async(req,res)=>{
 }
     catch(err){
         res.status(400).send({"error":err})
+    }
+})
+
+carRouter.get('/getlikes',async(req,res)=>{
+    console.log(req.header)
+    const fav=req.headers
+    try{
+    const cars=await carModel.find({_id:{$in: fav}})
+    if(cars!=undefined){
+        res.status(200).send({"cars":cars})
+      }
+      else{
+        res.status(200).send({"msg":"Something Went Wrong"})
+}
+    }
+    catch{
+
     }
 })
 module.exports={
