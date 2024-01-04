@@ -64,7 +64,7 @@ carRouter.patch('/updatecar/:id',async(req,res)=>{
 
 carRouter.get('/getlikes',async(req,res)=>{
     console.log(req.headers.hello)
-    const fav=[req.headers.hello]
+    const fav=[req.headers.hello.split(",")]
     console.log(fav)
     try{
     const cars=await carModel.find({_id:{$in: fav}})
