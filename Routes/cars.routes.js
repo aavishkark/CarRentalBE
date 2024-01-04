@@ -65,9 +65,13 @@ carRouter.patch('/updatecar/:id',async(req,res)=>{
 carRouter.get('/getlikes',async(req,res)=>{
     console.log(req.headers.hello)
     const fav=[req.headers.hello.split(",")]
-    console.log(fav)
+  //  console.log(fav)
     try{
-    const cars=await carModel.find({_id:{$in: fav}})
+    const cars=await carModel.find({_id:{$in: [
+        '6593ca2fa861965877671e81',
+        '6593caa3a861965877671e83',
+        '6593cdbea861965877671ea7'
+      ]}})
     if(cars!=undefined){
         res.status(200).send({"cars":cars})
       }
