@@ -46,7 +46,8 @@ userRouter.patch('/update/:id',async(req,res)=>{
     const user=await UserModel.findOne({_id:userid})
    if(user!=undefined){
     await UserModel.findByIdAndUpdate(userid,req.body)
-    res.status(200).send({"msg":`The user with ID: ${userid} has been updated`})
+    const user=await UserModel.findById(userid)
+    res.status(200).send({"msg":`The user with ID: ${userid} has been updated`,"user":user})
    }
    else{
     res.status(200).send({"msg":"User not found"})
